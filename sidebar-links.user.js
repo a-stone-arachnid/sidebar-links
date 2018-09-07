@@ -3,7 +3,7 @@
 // @description   Put Question, Tag, User, Badge, Unanswered, Ask links into the header.
 // @author        a stone arachnid
 // @namespace     https://github.com/a-stone-arachnid/
-// @version       1.0
+// @version       1.1
 // @include       http*://stackoverflow.com/*
 // @include       http*://*stackoverflow.com/*
 // @include       http*://*askubuntu.com/*
@@ -29,8 +29,10 @@ with_jquery(function(){
   
   
   const config={
-		activeLinkColor: "#060", // The color of a link when it is activated
-	}
+    activeLinkColor: "#060", // The color of a link when it is activated
+    hideHamburgerMenu: false,
+    makeHeaderTaller: false
+  };
   
   
   // END USER CONFIGURABLE ZONE
@@ -63,7 +65,7 @@ with_jquery(function(){
   } else if(window.location.pathname.match(/^\/questions\/ask/)){
     $("#mrsb-askq").css("background-color",config.activeLinkColor);
   }
-  const globalStyles=`
+  let globalStyles=`
 #mrsb-head a{
   display:inline-block;
   background:#333;
@@ -72,7 +74,18 @@ with_jquery(function(){
   padding:4px 8px;
 	margin:0 4px;
 }
-#mrsb-head a:hover{color:#FFF;background:#444}`;
+#mrsb-head a:hover{color:#FFF;background:#444}
+`;
 
+  if(config.makeHeaderTaller){
+globalStyles += `
+.site-header .site-header--container{
+  height:120px;
+}
+`;
+  }
+  if(config.hideHamburgerMenu){
+    $(".left-sidebar-toggle").hide();$(".top-bar .-container").css("max-width","1100px"); 
+  }
   $("<style/>").text(globalStyles).appendTo($("head"));
 });
